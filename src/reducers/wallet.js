@@ -4,7 +4,7 @@ const INITIAL_STATE = {
   expenses: [],
 };
 
-const wallet = (state = INITIAL_STATE, { type, payload }) => {
+const wallet = (state = INITIAL_STATE, { type }) => {
   switch (type) {
   default:
     return state;

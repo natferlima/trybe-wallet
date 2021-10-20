@@ -34,10 +34,11 @@ class Login extends React.Component {
     return (
       <div>
         <input
+          placeholder="Email"
+          data-testid="email-input"
           type="email"
           id="email"
           name="email"
-          data-testid="email-input"
           onChange={ this.handleChange }
         />
         <input
