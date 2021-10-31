@@ -2,7 +2,27 @@ import React from 'react';
 import Header from '../components/Header';
 
 class Wallet extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      moedas: [],
+    };
+    this.getMoedasAPI = this.getMoedasAPI.bind(this);
+  }
+
+  componentDidMount() {
+    this.getMoedasAPI();
+  }
+
+  async getMoedasAPI() {
+    fetch('https://economia.awesomeapi.com.br/json/all')
+      .then((results) => results.json())
+      .then((result) => this.setState({ moedas: Object.values(result).filter((obj) => (
+        obj.name !== 'Dólar Americano/Real Brasileiro Turismo')) }));
+  }
+
   render() {
+    const { moedas } = this.state;
     return (
       <div>
         <Header />
@@ -18,8 +38,9 @@ class Wallet extends React.Component {
           <label htmlFor="moeda">
             Moeda
             <select id="moeda">
-              <option value="moeda1">moeda1</option>
-              <option value="moeda2">moeda2</option>
+              { moedas.map((moeda) => (
+                <option key={ moeda.name } value={ moeda.code }>{ moeda.code }</option>
+              ))}
             </select>
           </label>
           <label htmlFor="metodo-pagamento">
