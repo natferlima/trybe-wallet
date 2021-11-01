@@ -6,6 +6,7 @@ class Wallet extends React.Component {
     super();
     this.state = {
       moedas: [],
+      exchangeRates: [],
     };
     this.getMoedasAPI = this.getMoedasAPI.bind(this);
   }
@@ -17,12 +18,16 @@ class Wallet extends React.Component {
   async getMoedasAPI() {
     fetch('https://economia.awesomeapi.com.br/json/all')
       .then((results) => results.json())
-      .then((result) => this.setState({ moedas: Object.values(result).filter((obj) => (
-        obj.name !== 'Dólar Americano/Real Brasileiro Turismo')) }));
+      .then((result) => {
+        // https://www.horadecodar.com.br/2020/12/11/remover-propriedade-de-objeto-javascript/
+        delete result.USDT;
+        const resultMoedas = Object.keys(result);
+        this.setState({ moedas: resultMoedas, exchangeRates: result });
+      });
   }
 
   render() {
-    const { moedas } = this.state;
+    const { moedas, exchangeRates } = this.state;
     return (
       <div>
         <Header />
@@ -38,8 +43,8 @@ class Wallet extends React.Component {
           <label htmlFor="moeda">
             Moeda
             <select id="moeda">
-              { moedas.map((moeda) => (
-                <option key={ moeda.name } value={ moeda.code }>{ moeda.code }</option>
+              { moedas.map((moeda, index) => (
+                <option key={ index } value={ moeda }>{ moeda }</option>
               ))}
             </select>
           </label>
@@ -61,7 +66,9 @@ class Wallet extends React.Component {
               <option value="saude">Saúde</option>
             </select>
           </label>
+          <button type="button">Adicionar Despesa</button>
         </form>
+        <p>{exchangeRates[0]}</p>
       </div>
     );
   }
