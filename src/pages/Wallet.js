@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getCurrenciesAPIThunk, sendExpensesThunk } from '../actions';
 import Header from '../components/Header';
+import ExpensesTable from '../components/ExpensesTable';
+import Form from '../components/Form';
 
 class Wallet extends React.Component {
   constructor() {
@@ -11,9 +13,9 @@ class Wallet extends React.Component {
       id: 0,
       value: 0,
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Alimentação',
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -36,57 +38,17 @@ class Wallet extends React.Component {
     this.setState({ id: id + 1 });
   }
 
-  // renderForm(){
-  //   return();
-  // }
-
   render() {
     const { currencies } = this.props;
     return (
       <div>
         <Header />
-        <form>
-          <label htmlFor="valor">
-            Valor
-            <input type="number" id="valor" name="value" onChange={ this.handleChange } />
-          </label>
-          <label htmlFor="descricao">
-            Descrição
-            <input
-              type="text"
-              id="descricao"
-              name="description"
-              onChange={ this.handleChange }
-            />
-          </label>
-          <label htmlFor="moeda">
-            Moeda
-            <select id="moeda" name="currency" onChange={ this.handleChange }>
-              { currencies.map((currencie, index) => (
-                <option key={ index } value={ currencie }>{ currencie }</option>
-              ))}
-            </select>
-          </label>
-          <label htmlFor="metodo-pagamento">
-            Método de pagamento
-            <select id="metodo-pagamento" name="method" onChange={ this.handleChange }>
-              <option value="Dinheiro">Dinheiro</option>
-              <option value="Cartão de crédito">Cartão de crédito</option>
-              <option value="Cartão de débito">Cartão de débito</option>
-            </select>
-          </label>
-          <label htmlFor="tag">
-            Tag
-            <select id="tag" name="tag" onChange={ this.handleChange }>
-              <option value="Alimentação">Alimentação</option>
-              <option value="Lazer">Lazer</option>
-              <option value="Trabalho">Trabalho</option>
-              <option value="Transporte">Transporte</option>
-              <option value="Saúde">Saúde</option>
-            </select>
-          </label>
-          <button type="button" onClick={ this.handleClick }>Adicionar Despesa</button>
-        </form>
+        <Form
+          currencies={ currencies }
+          handleChange={ this.handleChange }
+          handleClick={ this.handleClick }
+        />
+        <ExpensesTable />
       </div>
     );
   }
