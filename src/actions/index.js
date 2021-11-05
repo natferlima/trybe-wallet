@@ -1,6 +1,7 @@
 export const LOGIN_USER = 'LOGIN_USER';
 export const GET_CURRENCIES_API = 'GET_CURRENCIES_API';
 export const SEND_EXPENSES = 'SEND_EXPENSES';
+export const DELETE_EXPENSE = 'DELETE_EXPENSE';
 
 export const loginUser = (email) => ({
   type: LOGIN_USER,
@@ -16,6 +17,11 @@ export const getCurrenciesAPI = (payload) => ({
 // será chamada lá no reducer e passará para o estado global os valores guardados em payload
 export const sendExpenses = (payload) => ({
   type: SEND_EXPENSES,
+  payload,
+});
+
+export const deleteExpense = (payload) => ({
+  type: DELETE_EXPENSE,
   payload,
 });
 
